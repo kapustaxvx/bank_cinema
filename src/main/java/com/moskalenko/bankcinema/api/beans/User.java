@@ -1,15 +1,31 @@
 package com.moskalenko.bankcinema.api.beans;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class User {
     Long id;
     String name;
     String surname;
-    Instant birthDate;
+    LocalDate birthDate;
 
     public User() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
     @Override

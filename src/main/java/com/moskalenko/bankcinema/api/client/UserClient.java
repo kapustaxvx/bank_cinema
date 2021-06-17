@@ -15,6 +15,12 @@ public interface UserClient {
 
     void updateMovieViewInfo(Long userId, Long movieId);
 
+    Movie getMovieById(Long movieId);
+
+    Director getDirectorById(Long directorId);
+
+    Actor getActorById(Long actorId);
+
     Collection<Movie> getAllMoviesFromUserMoviesList(Long userId);
 
     Collection<Movie> getAllUnseenMoviesFromUserMoviesList(Long userId);

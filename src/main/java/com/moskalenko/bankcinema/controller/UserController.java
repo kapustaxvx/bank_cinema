@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
 @RestController
-@RequestMapping(value = "/users")
 public class UserController implements UserClient {
+
 
     private final UserService userService;
     private final DirectorService directorService;
@@ -36,19 +35,19 @@ public class UserController implements UserClient {
     }
 
     @Override
-    @PostMapping("/{userId}/add/{movieId}")
+    @PostMapping("users/{userId}/add/{movieId}")
     public void addToUserMoviesList(@PathVariable Long userId,@PathVariable Long movieId) {
         userService.addToUserMoviesList(userId, movieId);
     }
 
     @Override
-    @DeleteMapping ("/{userId}/delete/{movieId}")
+    @DeleteMapping ("users/{userId}/delete/{movieId}")
     public void deleteFromUserMoviesList(@PathVariable Long userId,@PathVariable Long movieId) {
         userService.deleteFromUserMoviesList(userId, movieId);
     }
 
     @Override
-    @PutMapping("/{userId}/movies/{movieId}/rate/{rate}")
+    @PutMapping("users/{userId}/movies/{movieId}/rate/{rate}")
     public void rateTheMovie(@PathVariable Long userId,
                              @PathVariable Long movieId,
                              @PathVariable Integer rate) {
@@ -57,22 +56,41 @@ public class UserController implements UserClient {
     }
 
     @Override
-    @PutMapping("/{userId}/view/{movieId}")
+    @PutMapping("users/{userId}/view/{movieId}")
     public void updateMovieViewInfo(@PathVariable Long userId,@PathVariable Long movieId) {
         userService.updateMovieViewInfo(userId, movieId);
     }
 
     @Override
-    @GetMapping("/{userId}/all")
+    @GetMapping("/movies/{movieId}")
+    public Movie getMovieById(@PathVariable Long movieId) {
+        return movieService.getMovieById(movieId);
+    }
+
+    @Override
+    @GetMapping("/directors/{directorId}")
+    public Director getDirectorById(@PathVariable Long directorId) {
+        return directorService.getDirectorById(directorId);
+    }
+
+    @Override
+    @GetMapping("/actors/{actorId}")
+    public Actor getActorById(@PathVariable Long actorId) {
+        return actorService.getActorById(actorId);
+    }
+
+    @Override
+    @GetMapping("users/{userId}/all")
     public Collection<Movie> getAllMoviesFromUserMoviesList(@PathVariable Long userId) {
         return userService.getAllMoviesFromUserMoviesList(userId);
     }
 
     @Override
-    @GetMapping("/{userId}/unseen")
+    @GetMapping("users/{userId}/unseen")
     public Collection<Movie> getAllUnseenMoviesFromUserMoviesList(@PathVariable Long userId) {
         return userService.getAllUnseenMoviesFromUserMoviesList(userId);
     }
+
 
     @Override
     @GetMapping("/directors")

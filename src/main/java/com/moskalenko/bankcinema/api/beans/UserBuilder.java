@@ -2,7 +2,8 @@ package com.moskalenko.bankcinema.api.beans;
 
 import com.google.common.base.Preconditions;
 
-import java.time.Instant;
+import java.time.LocalDate;
+
 
 public class UserBuilder {
     private final User user = new User();
@@ -26,7 +27,7 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder withBirthDate(Instant birthDate) {
+    public UserBuilder withBirthDate(LocalDate birthDate) {
         user.birthDate = birthDate;
         return this;
     }

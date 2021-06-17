@@ -11,7 +11,12 @@ public class MovieService {
         return null;
     }
 
+    public Movie getMovieById(Long movieId){
+        return null;
+    }
+
     public Collection<Movie> getAllMovies() {
         return null;
     }
+
 }

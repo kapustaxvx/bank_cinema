@@ -14,4 +14,8 @@ public class DirectorService {
     public Collection<Director> getAllDirectors() {
         return null;
     }
+
+    public Director getDirectorById(Long directorId) {
+        return null;
+    }
 }
