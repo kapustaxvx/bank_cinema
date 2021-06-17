@@ -1,13 +1,14 @@
 package com.moskalenko.bankcinema.api.beans;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class ArtWorker {
     Long id;
     String name;
     String surname;
-    Instant birthDate;
+    LocalDate birthDate;
 
     public ArtWorker() {
     }
@@ -24,7 +25,7 @@ public class ArtWorker {
         return surname;
     }
 
-    public Instant getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 

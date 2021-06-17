@@ -68,4 +68,3 @@ CREATE TABLE IF NOT EXISTS user_movies_list
         viewed BOOLEAN DEFAULT (false),
         UNIQUE (user_id, movie_id)
 )
-

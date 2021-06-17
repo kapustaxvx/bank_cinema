@@ -1,8 +1,7 @@
 package com.moskalenko.bankcinema.api.beans;
 
 import com.google.common.base.Preconditions;
-
-import java.time.Instant;
+import java.time.LocalDate;
 
 public class ArtWorkerBuilder {
     private final ArtWorker artWorker = new ArtWorker();
@@ -26,7 +25,7 @@ public class ArtWorkerBuilder {
         return this;
     }
 
-    public ArtWorkerBuilder withBirthDate(Instant birthDate) {
+    public ArtWorkerBuilder withBirthDate(LocalDate birthDate) {
         artWorker.birthDate = birthDate;
         return this;
     }

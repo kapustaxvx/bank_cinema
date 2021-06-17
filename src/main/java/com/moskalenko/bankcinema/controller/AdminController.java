@@ -5,10 +5,12 @@ import com.moskalenko.bankcinema.api.beans.Director;
 import com.moskalenko.bankcinema.api.beans.Movie;
 import com.moskalenko.bankcinema.api.beans.User;
 import com.moskalenko.bankcinema.api.client.AdminClient;
+import com.moskalenko.bankcinema.kafka.ProducerService;
 import com.moskalenko.bankcinema.service.ActorService;
 import com.moskalenko.bankcinema.service.DirectorService;
 import com.moskalenko.bankcinema.service.MovieService;
 import com.moskalenko.bankcinema.service.UserService;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,19 +27,23 @@ public class AdminController implements AdminClient {
     private final DirectorService directorService;
     private final ActorService actorService;
     private final MovieService movieService;
+    private final ProducerService producerService;
 
     public AdminController(UserService userService, DirectorService directorService,
-                           ActorService actorService, MovieService movieService) {
+                           ActorService actorService, MovieService movieService,
+                           ProducerService producerService) {
         this.userService = userService;
         this.directorService = directorService;
         this.actorService = actorService;
         this.movieService = movieService;
+        this.producerService = producerService;
     }
 
 
     @Override
     @PostMapping("/users")
     public User addUser(@RequestBody User userData) {
+        producerService.produce(userData);
         return userService.addUser(userData);
     }
 
