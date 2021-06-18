@@ -1,4 +1,4 @@
-package com.moskalenko.bankcinema.api.beans;
+package com.moskalenko.bankcinema.api.entity;
 
 public enum Genre {
     DRAMA,

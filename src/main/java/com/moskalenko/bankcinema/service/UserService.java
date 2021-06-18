@@ -1,7 +1,8 @@
 package com.moskalenko.bankcinema.service;
 
-import com.moskalenko.bankcinema.api.beans.Movie;
-import com.moskalenko.bankcinema.api.beans.User;
+import com.moskalenko.bankcinema.api.DTO.UserDTO;
+import com.moskalenko.bankcinema.api.entity.Movie;
+import com.moskalenko.bankcinema.api.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.Collection;
 @Service
 public class UserService {
     
-    public User addUser(User userData) {
+    public User addUser(UserDTO userData) {
         return null;
     }
 
@@ -34,6 +35,10 @@ public class UserService {
     }
 
     public Collection<Movie> getAllUnseenMoviesFromUserMoviesList(Long userId) {
+        return null;
+    }
+
+    public User getUserById(Long userId) {
         return null;
     }
 }

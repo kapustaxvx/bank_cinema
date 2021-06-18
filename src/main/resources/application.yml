@@ -1,11 +1,16 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/bank-cinema-db
-    username: postgres
-    password: password
-    driver-class-name: org.postgresql.Driver
-    schema: classpath*:schema.sql
-    initialization-mode: always
+    url: jdbc:h2:file:/Users/a19190480/IdeaProjects/bank-cinema/db/bank-cinema-h2-db;MV_STORE=false
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+
   kafka:
     producer:
       bootstrap-servers: localhost:9092
@@ -19,6 +24,8 @@ spring:
           json:
             trusted:
               packages: com/moskalenko/bankcinema
+
+
 logging:
   file:
     name: BankCinema.log
