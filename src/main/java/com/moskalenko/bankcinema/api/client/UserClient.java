@@ -1,8 +1,6 @@
 package com.moskalenko.bankcinema.api.client;
 
-import com.moskalenko.bankcinema.api.beans.Actor;
-import com.moskalenko.bankcinema.api.beans.Director;
-import com.moskalenko.bankcinema.api.beans.Movie;
+import com.moskalenko.bankcinema.api.entity.Movie;
 
 import java.util.Collection;
 
@@ -15,19 +13,8 @@ public interface UserClient {
 
     void updateMovieViewInfo(Long userId, Long movieId);
 
-    Movie getMovieById(Long movieId);
-
-    Director getDirectorById(Long directorId);
-
-    Actor getActorById(Long actorId);
-
     Collection<Movie> getAllMoviesFromUserMoviesList(Long userId);
 
     Collection<Movie> getAllUnseenMoviesFromUserMoviesList(Long userId);
-
-    Collection<Director> getAllDirectors();
-
-    Collection<Actor> getAllActors();
-
-    Collection<Movie> getAllMovies();
 }
+
