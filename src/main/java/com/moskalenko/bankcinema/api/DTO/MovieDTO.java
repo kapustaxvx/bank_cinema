@@ -3,6 +3,7 @@ package com.moskalenko.bankcinema.api.DTO;
 import com.moskalenko.bankcinema.api.entity.Genre;
 
 public class MovieDTO {
+    private Long id;
     private String title;
     private String description;
     private Genre genre;
@@ -14,6 +15,10 @@ public class MovieDTO {
 
     public String getTitle() {
         return title;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getDescription() {

@@ -2,7 +2,7 @@ package com.moskalenko.bankcinema.controller;
 
 import com.moskalenko.bankcinema.api.client.UserClient;
 import com.moskalenko.bankcinema.api.entity.Movie;
-import com.moskalenko.bankcinema.service.UserService;
+import com.moskalenko.bankcinema.service.UserMoviesService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,22 +18,23 @@ import java.util.Collection;
 public class UserController implements UserClient {
 
 
-    private final UserService userService;
+    private final UserMoviesService userMoviesService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserMoviesService userMoviesService) {
+        this.userMoviesService = userMoviesService;
     }
+
 
     @Override
     @PostMapping("/{userId}/add/{movieId}")
     public void addToUserMoviesList(@PathVariable Long userId,@PathVariable Long movieId) {
-        userService.addToUserMoviesList(userId, movieId);
+        userMoviesService.addToUserMoviesList(userId, movieId);
     }
 
     @Override
     @DeleteMapping ("/{userId}/delete/{movieId}")
     public void deleteFromUserMoviesList(@PathVariable Long userId,@PathVariable Long movieId) {
-        userService.deleteFromUserMoviesList(userId, movieId);
+        userMoviesService.deleteFromUserMoviesList(userId, movieId);
     }
 
     @Override
@@ -41,26 +42,26 @@ public class UserController implements UserClient {
     public void rateTheMovie(@PathVariable Long userId,
                              @PathVariable Long movieId,
                              @PathVariable Integer rate) {
-        userService.rateTheMovie(userId, movieId, rate);
+        userMoviesService.rateTheMovie(userId, movieId, rate);
 
     }
 
     @Override
     @PutMapping("/{userId}/view/{movieId}")
     public void updateMovieViewInfo(@PathVariable Long userId,@PathVariable Long movieId) {
-        userService.updateMovieViewInfo(userId, movieId);
+        userMoviesService.updateMovieViewInfo(userId, movieId);
     }
 
 
     @Override
     @GetMapping("/{userId}/all")
     public Collection<Movie> getAllMoviesFromUserMoviesList(@PathVariable Long userId) {
-        return userService.getAllMoviesFromUserMoviesList(userId);
+        return userMoviesService.getAllMoviesFromUserMoviesList(userId);
     }
 
     @Override
     @GetMapping("/{userId}/unseen")
     public Collection<Movie> getAllUnseenMoviesFromUserMoviesList(@PathVariable Long userId) {
-        return userService.getAllUnseenMoviesFromUserMoviesList(userId);
+        return userMoviesService.getAllUnseenMoviesFromUserMoviesList(userId);
     }
 }

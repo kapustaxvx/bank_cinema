@@ -1,6 +1,5 @@
 package com.moskalenko.bankcinema.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,7 +31,6 @@ public class Movie {
     private String title;
 
     @Column(name = "description")
-    @JsonIgnore
     private String description;
 
     @Enumerated(EnumType.STRING)

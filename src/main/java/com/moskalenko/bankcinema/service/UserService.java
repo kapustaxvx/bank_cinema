@@ -1,44 +1,52 @@
 package com.moskalenko.bankcinema.service;
 
 import com.moskalenko.bankcinema.api.DTO.UserDTO;
-import com.moskalenko.bankcinema.api.entity.Movie;
 import com.moskalenko.bankcinema.api.entity.User;
+import com.moskalenko.bankcinema.dao.UserDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Service
 public class UserService {
-    
-    public User addUser(UserDTO userData) {
-        return null;
+    private final static Logger log = LoggerFactory.getLogger(UserService.class);
+    private final UserDAO userDAO;
+
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
-    public void addToUserMoviesList(Long userId, Long movieId) {
+
+    @Transactional
+    public User addUser(UserDTO userData) {
+        final User user = userDAO.addUser(userData).orElse(null);
+        if (user == null) {
+            log.info("User was not added: " + userData.toString());
+            throw new RuntimeException("User was not added");
+        }
+        log.info("[{}] User added", user.getId());
+        return user;
     }
 
     public Collection<User> getAllUsers() {
-        return null;
-    }
-
-    public void deleteFromUserMoviesList(Long userId, Long movieId) {
-    }
-
-    public void rateTheMovie(Long userId, Long movieId, Integer rate) {
-    }
-
-    public void updateMovieViewInfo(Long userId, Long movieId) {
-    }
-
-    public Collection<Movie> getAllMoviesFromUserMoviesList(Long userId) {
-        return null;
-    }
-
-    public Collection<Movie> getAllUnseenMoviesFromUserMoviesList(Long userId) {
-        return null;
+        final Set<User> users = userDAO.getAllUser();
+        if (users.isEmpty()) {
+            log.info("User's list is empty");
+            throw new RuntimeException("List is empty");
+        }
+        return users;
     }
 
     public User getUserById(Long userId) {
-        return null;
+        final User user = userDAO.getUserById(userId).orElse(null);
+        if (user == null) {
+            log.info("[{}] User is not found", userId);
+            throw new RuntimeException("User is not found");
+        }
+        return user;
     }
 }

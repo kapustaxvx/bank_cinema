@@ -1,7 +1,6 @@
 package com.moskalenko.bankcinema.kafka;
 
 import com.moskalenko.bankcinema.api.DTO.UserDTO;
-import com.moskalenko.bankcinema.api.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
