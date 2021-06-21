@@ -3,17 +3,23 @@ package com.moskalenko.bankcinema.api.DTO;
 import com.moskalenko.bankcinema.api.entity.Genre;
 
 public class MovieDTO {
+    private Long id;
     private String title;
     private String description;
     private Genre genre;
     private Double rating;
     private Integer fees;
+    private Long directorId;
 
     public MovieDTO() {
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getDescription() {
@@ -30,5 +36,9 @@ public class MovieDTO {
 
     public Integer getFees() {
         return fees;
+    }
+
+    public Long getDirectorId() {
+        return directorId;
     }
 }

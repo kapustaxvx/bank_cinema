@@ -1,6 +1,5 @@
 package com.moskalenko.bankcinema.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,7 +31,6 @@ public class Movie {
     private String title;
 
     @Column(name = "description")
-    @JsonIgnore
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -46,14 +44,11 @@ public class Movie {
     @Column(name = "fees")
     private Integer fees;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "director_id", nullable = false)
     private Director director;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "actor_movies",
-    joinColumns = @JoinColumn(name = "movie_id"),
-    inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    @ManyToMany(mappedBy = "movies")
     private Set<Actor> actors;
 
     @OneToMany(mappedBy = "movie")
@@ -70,6 +65,15 @@ public class Movie {
         this.genre = genre;
         this.rating = rating;
         this.fees = fees;
+    }
+
+    public Movie(String title, String description, Genre genre, Double rating, Integer fees, Director director) {
+        this.title = title;
+        this.description = description;
+        this.genre = genre;
+        this.rating = rating;
+        this.fees = fees;
+        this.director = director;
     }
 
     public Long getId() {

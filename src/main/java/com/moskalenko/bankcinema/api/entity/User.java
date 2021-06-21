@@ -45,6 +45,12 @@ public class User {
         this.nickname = nickname;
     }
 
+    public User(String name, String surname, String nickname) {
+        this.name = name;
+        this.surname = surname;
+        this.nickname = nickname;
+    }
+
     public Long getId() {
         return id;
     }
