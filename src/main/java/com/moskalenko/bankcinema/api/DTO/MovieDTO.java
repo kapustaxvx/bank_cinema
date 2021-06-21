@@ -9,6 +9,7 @@ public class MovieDTO {
     private Genre genre;
     private Double rating;
     private Integer fees;
+    private Long directorId;
 
     public MovieDTO() {
     }
@@ -35,5 +36,9 @@ public class MovieDTO {
 
     public Integer getFees() {
         return fees;
+    }
+
+    public Long getDirectorId() {
+        return directorId;
     }
 }

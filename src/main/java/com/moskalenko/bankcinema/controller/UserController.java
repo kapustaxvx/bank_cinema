@@ -49,7 +49,7 @@ public class UserController implements UserClient {
     @Override
     @PutMapping("/{userId}/view/{movieId}")
     public void updateMovieViewInfo(@PathVariable Long userId,@PathVariable Long movieId) {
-        userMoviesService.updateMovieViewInfo(userId, movieId);
+        userMoviesService.updateMovieViewInfoToWatched(userId, movieId);
     }
 
 

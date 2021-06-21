@@ -35,6 +35,11 @@ public class UserMovies {
     public UserMovies() {
     }
 
+    public UserMovies(User user, Movie movie) {
+        this.user = user;
+        this.movie = movie;
+    }
+
     public UserMoviesKey getUserMoviesKey() {
         return userMoviesKey;
     }

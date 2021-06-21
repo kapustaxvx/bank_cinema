@@ -44,6 +44,11 @@ public class Actor {
         this.surname = surname;
     }
 
+    public Actor(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
+
     public Long getId() {
         return id;
     }

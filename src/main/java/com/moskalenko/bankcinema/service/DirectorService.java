@@ -23,17 +23,14 @@ public class DirectorService {
 
     @Transactional
     public Director addDirector(DirectorDTO directorData) {
-        final Director director = directorDAO.addDirector(directorData).orElse(null);
-        if (director == null){
-            log.info("Director was not added: "+ directorData.toString());
-            throw new RuntimeException("Director was not added");
-        }
+        final Director director = new Director(directorData.getName(), directorData.getSurname());
+        directorDAO.save(director);
         log.info("[{}] Director added", director.getId());
         return director;
     }
 
     public Collection<Director> getAllDirectors() {
-        final Set<Director> directors = directorDAO.getAllDirectors();
+        final Set<Director> directors = (Set<Director>) directorDAO.findAll();
         if (directors.isEmpty()) {
             log.info("Director's list is empty");
             throw new RuntimeException("List is empty");

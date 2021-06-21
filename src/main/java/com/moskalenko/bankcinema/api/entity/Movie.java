@@ -70,6 +70,15 @@ public class Movie {
         this.fees = fees;
     }
 
+    public Movie(String title, String description, Genre genre, Double rating, Integer fees, Director director) {
+        this.title = title;
+        this.description = description;
+        this.genre = genre;
+        this.rating = rating;
+        this.fees = fees;
+        this.director = director;
+    }
+
     public Long getId() {
         return id;
     }

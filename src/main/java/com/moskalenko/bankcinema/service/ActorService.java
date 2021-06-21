@@ -23,17 +23,14 @@ public class ActorService {
 
     @Transactional
     public Actor addActor(ActorDTO actorData) {
-        final Actor actor = actorDAO.addActor(actorData).orElse(null);
-        if (actor == null){
-            log.info("Actor was not added: "+ actorData.toString());
-            throw new RuntimeException("Actor was not added");
-        }
+        final Actor actor = new Actor(actorData.getName(), actorData.getSurname());
+        actorDAO.save(actor);
         log.info("[{}] Actor added", actor.getId());
         return actor;
     }
 
     public Collection<Actor> getAllActors() {
-        final Set<Actor> actors = actorDAO.getAllActors();
+        final Set<Actor> actors = (Set<Actor>) actorDAO.findAll();
         if (actors.isEmpty()) {
             log.info("Actor's list is empty");
             throw new RuntimeException("List is empty");

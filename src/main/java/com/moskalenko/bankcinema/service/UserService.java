@@ -23,17 +23,13 @@ public class UserService {
 
     @Transactional
     public User addUser(UserDTO userData) {
-        final User user = userDAO.addUser(userData).orElse(null);
-        if (user == null) {
-            log.info("User was not added: " + userData.toString());
-            throw new RuntimeException("User was not added");
-        }
+        final User user = new User(userData.getName(), userData.getSurname(), userData.getNickname());
         log.info("[{}] User added", user.getId());
         return user;
     }
 
     public Collection<User> getAllUsers() {
-        final Set<User> users = userDAO.getAllUser();
+        final Set<User> users = (Set<User>) userDAO.findAll();
         if (users.isEmpty()) {
             log.info("User's list is empty");
             throw new RuntimeException("List is empty");
