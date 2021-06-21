@@ -29,11 +29,11 @@ public class Actor {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "actor_movies",
-            joinColumns = @JoinColumn(name = "actor_id"),
-            inverseJoinColumns = @JoinColumn(name = "movie_id"))
-    private Set<Movie> actorMovies = new HashSet<>();
+            joinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
+    private Set<Movie> movies = new HashSet<>();
 
     public Actor() {
     }
@@ -73,12 +73,12 @@ public class Actor {
         this.surname = surname;
     }
 
-    public Set<Movie> getActorMovies() {
-        return actorMovies;
+    public Set<Movie> getMovies() {
+        return movies;
     }
 
-    public void setActorMovies(Set<Movie> actorMovies) {
-        this.actorMovies = actorMovies;
+    public void setMovies(Set<Movie> actorMovies) {
+        this.movies = actorMovies;
     }
 
     @Override

@@ -44,14 +44,11 @@ public class Movie {
     @Column(name = "fees")
     private Integer fees;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "director_id", nullable = false)
     private Director director;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "actor_movies",
-    joinColumns = @JoinColumn(name = "movie_id"),
-    inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    @ManyToMany(mappedBy = "movies")
     private Set<Actor> actors;
 
     @OneToMany(mappedBy = "movie")
