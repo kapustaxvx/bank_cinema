@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -36,7 +37,7 @@ public class UserController implements UserClient {
     @Override
     @PostMapping
     public User addUser(@RequestBody UserDTO userData) {
-        producerService.produce(userData);
+        // producerService.produce(userData);
         return userService.addUser(userData);
     }
 
@@ -55,28 +56,36 @@ public class UserController implements UserClient {
 
     @Override
     @PostMapping("/{userId}/add/{movieId}")
-    public void addToUserMoviesList(@PathVariable Long userId, @PathVariable Long movieId) {
+    public @ResponseBody
+    String addToUserMoviesList(@PathVariable Long userId, @PathVariable Long movieId) {
         userMoviesService.addToUserMoviesList(userId, movieId);
+        return "Movie added for user";
     }
 
     @Override
     @DeleteMapping("/{userId}/delete/{movieId}")
-    public void deleteFromUserMoviesList(@PathVariable Long userId, @PathVariable Long movieId) {
+    public @ResponseBody
+    String deleteFromUserMoviesList(@PathVariable Long userId, @PathVariable Long movieId) {
         userMoviesService.deleteFromUserMoviesList(userId, movieId);
+        return "Movie removed from user";
     }
 
     @Override
     @PutMapping("/{userId}/movies/{movieId}/rate/{rate}")
-    public void rateTheMovie(@PathVariable Long userId,
-                             @PathVariable Long movieId,
-                             @PathVariable Integer rate) {
+    public @ResponseBody
+    String rateTheMovie(@PathVariable Long userId,
+                        @PathVariable Long movieId,
+                        @PathVariable Integer rate) {
         userMoviesService.rateTheMovie(userId, movieId, rate);
+        return "Movie rated by user";
     }
 
     @Override
     @PutMapping("/{userId}/view/{movieId}")
-    public void updateMovieViewInfo(@PathVariable Long userId, @PathVariable Long movieId) {
+    public @ResponseBody
+    String updateMovieViewInfo(@PathVariable Long userId, @PathVariable Long movieId) {
         userMoviesService.updateMovieViewInfoToWatched(userId, movieId);
+        return "Movie updated by user";
     }
 
     @Override

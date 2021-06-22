@@ -8,7 +8,7 @@ import java.util.Collection;
 public interface ActorClient {
     Actor addActor(ActorDTO actorData);
 
-    void addActorToMovie(Long actorId, Long movieId);
+    String addActorToMovie(Long actorId, Long movieId);
 
     Actor getActorById(Long actorId);
 

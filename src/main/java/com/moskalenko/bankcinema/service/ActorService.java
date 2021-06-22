@@ -4,13 +4,13 @@ import com.moskalenko.bankcinema.api.DTO.ActorDTO;
 import com.moskalenko.bankcinema.api.entity.Actor;
 import com.moskalenko.bankcinema.api.entity.Movie;
 import com.moskalenko.bankcinema.dao.ActorDAO;
+import com.moskalenko.bankcinema.kafka.ProducerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Set;
 
 @Service
 public class ActorService {
@@ -18,10 +18,13 @@ public class ActorService {
     private static final Logger log = LoggerFactory.getLogger(ActorService.class);
     private final ActorDAO actorDAO;
     private final MovieService movieService;
+    private final ProducerService producerService;
 
-    public ActorService(ActorDAO actorDAO, MovieService movieService) {
+    public ActorService(ActorDAO actorDAO, MovieService movieService,
+                        ProducerService producerService) {
         this.actorDAO = actorDAO;
         this.movieService = movieService;
+        this.producerService = producerService;
     }
 
     @Transactional
@@ -29,15 +32,17 @@ public class ActorService {
         final Actor actor = new Actor(actorData.getName(), actorData.getSurname());
         actorDAO.save(actor);
         log.info("[{}] Actor added", actor.getId());
+        producerService.produce(new ActorDTO(actor));
         return actor;
     }
 
     public Collection<Actor> getAllActors() {
-        final Set<Actor> actors = (Set<Actor>) actorDAO.findAll();
+        final Collection<Actor> actors = actorDAO.findAll();
         if (actors.isEmpty()) {
             log.info("Actor's list is empty");
             throw new RuntimeException("List is empty");
         }
+        log.info("Return all actors");
         return actors;
     }
 
@@ -48,6 +53,7 @@ public class ActorService {
             log.info("[{}] Actor is not found", actorId);
             throw new RuntimeException("Actor is not found");
         }
+        log.info("Return [{}] actor", actorId);
         return actor;
     }
 

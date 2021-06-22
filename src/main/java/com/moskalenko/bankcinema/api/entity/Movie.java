@@ -1,6 +1,8 @@
 package com.moskalenko.bankcinema.api.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Objects;
 import java.util.Set;
@@ -23,11 +25,15 @@ import java.util.Set;
 public class Movie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "movie_sequence",
+            sequenceName = "movie_sequence",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "movie_sequence")
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     @Column(name = "description")
@@ -49,9 +55,11 @@ public class Movie {
     private Director director;
 
     @ManyToMany(mappedBy = "movies")
+    @JsonIgnore
     private Set<Actor> actors;
 
     @OneToMany(mappedBy = "movie")
+    @JsonIgnore
     private Set<UserMovies> userMovies;
 
 
@@ -67,13 +75,12 @@ public class Movie {
         this.fees = fees;
     }
 
-    public Movie(String title, String description, Genre genre, Double rating, Integer fees, Director director) {
+    public Movie(String title, String description, Genre genre, Double rating, Integer fees) {
         this.title = title;
         this.description = description;
         this.genre = genre;
         this.rating = rating;
         this.fees = fees;
-        this.director = director;
     }
 
     public Long getId() {

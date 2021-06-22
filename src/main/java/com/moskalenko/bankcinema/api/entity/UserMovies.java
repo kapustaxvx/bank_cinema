@@ -8,9 +8,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "user_movies")
+@Table(name = "user_movies",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id","movie_id"})}
+        )
 public class UserMovies {
 
     @EmbeddedId
@@ -27,7 +30,7 @@ public class UserMovies {
     private Movie movie;
 
     @Column(name = "wathed")
-    private Boolean isWatched;
+    private Boolean isWatched = false;
 
     @Column(name = "rate", columnDefinition = "INT CHECK (rate>=0 AND rate<=10)")
     private Integer rate;
@@ -38,6 +41,7 @@ public class UserMovies {
     public UserMovies(User user, Movie movie) {
         this.user = user;
         this.movie = movie;
+        this.userMoviesKey = new UserMoviesKey(user.getId(), movie.getId());
     }
 
     public UserMoviesKey getUserMoviesKey() {
@@ -78,5 +82,16 @@ public class UserMovies {
 
     public void setRate(Integer rate) {
         this.rate = rate;
+    }
+
+    @Override
+    public String toString() {
+        return "UserMovies{" +
+                "userMoviesKey=" + userMoviesKey +
+                ", user=" + user +
+                ", movie=" + movie +
+                ", isWatched=" + isWatched +
+                ", rate=" + rate +
+                '}';
     }
 }
