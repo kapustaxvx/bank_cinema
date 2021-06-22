@@ -13,13 +13,13 @@ public interface UserClient {
 
     Collection<User> getAllUsers();
 
-    void addToUserMoviesList(Long userId, Long movieId);
+    String addToUserMoviesList(Long userId, Long movieId);
 
-    void deleteFromUserMoviesList(Long userId, Long movieId);
+    String deleteFromUserMoviesList(Long userId, Long movieId);
 
-    void rateTheMovie(Long userId, Long movieId, Integer rate);
+    String rateTheMovie(Long userId, Long movieId, Integer rate);
 
-    void updateMovieViewInfo(Long userId, Long movieId);
+    String updateMovieViewInfo(Long userId, Long movieId);
 
     Collection<Movie> getAllMoviesFromUserMoviesList(Long userId);
 

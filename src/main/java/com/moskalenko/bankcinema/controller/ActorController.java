@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -31,8 +32,9 @@ public class ActorController implements ActorClient {
 
     @Override
     @PutMapping("/{actorId}/movies/{movieId}")
-    public void addActorToMovie(@PathVariable Long actorId, @PathVariable Long movieId) {
+    public @ResponseBody String addActorToMovie(@PathVariable Long actorId, @PathVariable Long movieId) {
         actorService.addActorToMovie(actorId, movieId);
+        return "Movie added";
     }
 
     @Override
