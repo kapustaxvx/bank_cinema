@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class UserMoviesService {
@@ -31,6 +32,7 @@ public class UserMoviesService {
         final User user = userService.getUserById(userId);
         final Movie movie = movieService.getMovieById(movieId);
         final UserMovies userMovies = new UserMovies(user, movie);
+
         userMoviesDAO.save(userMovies);
         log.info("[{}] User add [{}] movie to wishlist", userId, movieId);
     }
@@ -67,24 +69,30 @@ public class UserMoviesService {
 
     public Collection<Movie> getAllMoviesFromUserMoviesList(Long userId) {
         final User user = userService.getUserById(userId);
-        final Collection<Movie> userMovies = userMoviesDAO.findAllByUser(user);
+        final Collection<UserMovies> userMovies = userMoviesDAO.findAllByUser(user);
         if (userMovies.isEmpty()) {
             log.info("[{}] User's movies list is empty", userId);
             throw new RuntimeException("List is empty");
         }
+        Collection<Movie> movies = userMovies.stream().filter(um-> um.getUser().getId().equals(userId))
+                .map(UserMovies::getMovie).collect(Collectors.toSet());
         log.info("[{}] User's all movies from list", userId);
-        return userMovies;
+        return movies;
     }
 
     public Collection<Movie> getAllUnseenMoviesFromUserMoviesList(Long userId) {
         final User user = userService.getUserById(userId);
-        final Collection<Movie> unseenUserMovies = userMoviesDAO.findAllByUserAndIsWatched(user, false);
+        final Collection<UserMovies> unseenUserMovies = userMoviesDAO.findAllByUserAndIsWatched(user, false);
         if (unseenUserMovies.isEmpty()) {
             log.info("[{}] User's unseen movies list is empty", userId);
             throw new RuntimeException("List is empty");
         }
+
+        Collection<Movie> movies = unseenUserMovies.stream().filter(um-> um.getUser().getId().equals(userId))
+                .filter(um -> um.getWatched().equals(false))
+                .map(UserMovies::getMovie).collect(Collectors.toSet());
         log.info("[{}] User's unseen movies from list", userId);
-        return unseenUserMovies;
+        return movies;
     }
 
     private UserMovies validUserMovies(Long userId, Long movieId) {

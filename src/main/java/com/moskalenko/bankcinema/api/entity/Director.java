@@ -1,5 +1,7 @@
 package com.moskalenko.bankcinema.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +22,11 @@ import java.util.Set;
 public class Director {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "director_sequence",
+            sequenceName = "director_sequence",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "director_sequence")
     @Column(name = "id")
     private Long id;
 
@@ -30,6 +37,7 @@ public class Director {
     private String surname;
 
     @OneToMany(mappedBy = "director")
+    @JsonIgnore
     private Set<Movie> directorMovies;
 
     public void addMovieToDirector(Movie movie){

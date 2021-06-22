@@ -1,5 +1,7 @@
 package com.moskalenko.bankcinema.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,7 +22,11 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence")
     @Column(name = "id")
     private Long id;
 
@@ -33,6 +40,7 @@ public class User {
     private String nickname;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<UserMovies> userMovies;
 
     public User() {

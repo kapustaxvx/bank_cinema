@@ -11,10 +11,10 @@ import java.util.Optional;
 
 @Repository
 public interface UserMoviesDAO extends CrudRepository<UserMovies, Long> {
-    Collection<Movie> findAllByUserAndIsWatched(User user, Boolean watched);
+    Collection<UserMovies> findAllByUserAndIsWatched(User user, Boolean watched);
     void deleteUserMoviesByUserAndMovie(User user, Movie movie);
     Optional<UserMovies> getByUserAndAndMovie(User user, Movie movie);
-    Collection<Movie> findAllByUser(User user);
+    Collection<UserMovies> findAllByUser(User user);
     Collection<UserMovies> findAllByMovieAndRateNotNull(Movie movie);
 
 }

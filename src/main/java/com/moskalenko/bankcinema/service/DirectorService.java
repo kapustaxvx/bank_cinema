@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Set;
 
 @Service
 public class DirectorService {
@@ -30,11 +29,12 @@ public class DirectorService {
     }
 
     public Collection<Director> getAllDirectors() {
-        final Set<Director> directors = (Set<Director>) directorDAO.findAll();
+        final Collection<Director> directors = (Collection<Director>) directorDAO.findAll();
         if (directors.isEmpty()) {
             log.info("Director's list is empty");
             throw new RuntimeException("List is empty");
         }
+        log.info("Return all directors");
         return directors;
     }
 
@@ -44,6 +44,7 @@ public class DirectorService {
             log.info("[{}] Director is not found", directorId);
             throw new RuntimeException("Director is not found");
         }
+        log.info("Return [{}] director", directorId);
         return director;
     }
 }

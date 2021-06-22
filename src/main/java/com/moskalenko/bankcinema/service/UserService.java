@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Set;
 
 @Service
 public class UserService {
@@ -24,16 +23,18 @@ public class UserService {
     @Transactional
     public User addUser(UserDTO userData) {
         final User user = new User(userData.getName(), userData.getSurname(), userData.getNickname());
+        userDAO.save(user);
         log.info("[{}] User added", user.getId());
         return user;
     }
 
     public Collection<User> getAllUsers() {
-        final Set<User> users = (Set<User>) userDAO.findAll();
+        final Collection<User> users = (Collection<User>) userDAO.findAll();
         if (users.isEmpty()) {
             log.info("User's list is empty");
             throw new RuntimeException("List is empty");
         }
+        log.info("Return all users");
         return users;
     }
 
@@ -43,6 +44,7 @@ public class UserService {
             log.info("[{}] User is not found", userId);
             throw new RuntimeException("User is not found");
         }
+        log.info("Return [{}] user", userId);
         return user;
     }
 }

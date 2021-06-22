@@ -36,7 +36,7 @@ public class UserController implements UserClient {
     @Override
     @PostMapping
     public User addUser(@RequestBody UserDTO userData) {
-        producerService.produce(userData);
+       // producerService.produce(userData);
         return userService.addUser(userData);
     }
 

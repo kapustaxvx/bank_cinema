@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Set;
 
 @Service
 public class ActorService {
@@ -33,11 +32,12 @@ public class ActorService {
     }
 
     public Collection<Actor> getAllActors() {
-        final Set<Actor> actors = (Set<Actor>) actorDAO.findAll();
+        final Collection<Actor> actors = actorDAO.findAll();
         if (actors.isEmpty()) {
             log.info("Actor's list is empty");
             throw new RuntimeException("List is empty");
         }
+        log.info("Return all actors");
         return actors;
     }
 
@@ -48,6 +48,7 @@ public class ActorService {
             log.info("[{}] Actor is not found", actorId);
             throw new RuntimeException("Actor is not found");
         }
+        log.info("Return [{}] actor", actorId);
         return actor;
     }
 
