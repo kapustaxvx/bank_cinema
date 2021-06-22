@@ -4,6 +4,7 @@ package com.moskalenko.bankcinema.service;
 import com.moskalenko.bankcinema.api.DTO.DirectorDTO;
 import com.moskalenko.bankcinema.api.entity.Director;
 import com.moskalenko.bankcinema.dao.DirectorDAO;
+import com.moskalenko.bankcinema.kafka.ProducerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,11 @@ import java.util.Collection;
 public class DirectorService {
     private static final Logger log = LoggerFactory.getLogger(DirectorService.class);
     private final DirectorDAO directorDAO;
+    private final ProducerService producerService;
 
-    public DirectorService(DirectorDAO directorDAO) {
+    public DirectorService(DirectorDAO directorDAO, ProducerService producerService) {
         this.directorDAO = directorDAO;
+        this.producerService = producerService;
     }
 
     @Transactional
@@ -25,6 +28,7 @@ public class DirectorService {
         final Director director = new Director(directorData.getName(), directorData.getSurname());
         directorDAO.save(director);
         log.info("[{}] Director added", director.getId());
+        producerService.produce(new DirectorDTO(director));
         return director;
     }
 

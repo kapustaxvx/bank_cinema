@@ -4,6 +4,7 @@ import com.moskalenko.bankcinema.api.DTO.MovieDTO;
 import com.moskalenko.bankcinema.api.entity.Director;
 import com.moskalenko.bankcinema.api.entity.Movie;
 import com.moskalenko.bankcinema.dao.MovieDAO;
+import com.moskalenko.bankcinema.kafka.ProducerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,13 @@ public class MovieService {
     private final static Logger log = LoggerFactory.getLogger(MovieService.class);
     private final MovieDAO movieDAO;
     private final DirectorService directorService;
+    private final ProducerService producerService;
 
-    public MovieService(MovieDAO movieDAO, DirectorService directorService) {
+    public MovieService(MovieDAO movieDAO, DirectorService directorService,
+                        ProducerService producerService) {
         this.movieDAO = movieDAO;
         this.directorService = directorService;
+        this.producerService = producerService;
     }
 
     @Transactional
@@ -30,6 +34,7 @@ public class MovieService {
         movie.setDirector(director);
         movieDAO.save(movie);
         log.info("[{}] Movie added", movie.getId());
+        producerService.produce(new MovieDTO(movie));
         return movie;
     }
 
@@ -61,6 +66,7 @@ public class MovieService {
             throw new RuntimeException("Movie is not found");
         }
         movie.setRating(rating);
+        producerService.produce(new MovieDTO(movie));
         log.info("[{}] Movie's rating is update to [{}]", movieId, rating);
     }
 }
