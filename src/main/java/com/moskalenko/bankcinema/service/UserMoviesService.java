@@ -74,8 +74,10 @@ public class UserMoviesService {
             log.info("[{}] User's movies list is empty", userId);
             throw new RuntimeException("List is empty");
         }
-        Collection<Movie> movies = userMovies.stream().filter(um-> um.getUser().getId().equals(userId))
-                .map(UserMovies::getMovie).collect(Collectors.toSet());
+        Collection<Movie> movies = userMovies.stream()
+                .filter(um-> um.getUser().getId().equals(userId))
+                .map(UserMovies::getMovie)
+                .collect(Collectors.toSet());
         log.info("[{}] User's all movies from list", userId);
         return movies;
     }
@@ -88,9 +90,11 @@ public class UserMoviesService {
             throw new RuntimeException("List is empty");
         }
 
-        Collection<Movie> movies = unseenUserMovies.stream().filter(um-> um.getUser().getId().equals(userId))
+        Collection<Movie> movies = unseenUserMovies.stream()
+                .filter(um-> um.getUser().getId().equals(userId))
                 .filter(um -> um.getWatched().equals(false))
-                .map(UserMovies::getMovie).collect(Collectors.toSet());
+                .map(UserMovies::getMovie)
+                .collect(Collectors.toSet());
         log.info("[{}] User's unseen movies from list", userId);
         return movies;
     }
@@ -113,7 +117,10 @@ public class UserMoviesService {
             log.info("[{}] Movie have not rate", movieId);
             throw new RuntimeException("List is empty");
         }
-        final Double rating = movies.stream().mapToDouble(UserMovies::getRate).average().getAsDouble();
+        final Double rating = movies.stream()
+                .mapToDouble(UserMovies::getRate)
+                .average()
+                .getAsDouble();
         log.info("[{}] Movie's rating is [{}]", movieId, rating);
         return rating;
     }

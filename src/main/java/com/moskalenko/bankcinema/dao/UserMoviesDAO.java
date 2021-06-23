@@ -16,5 +16,4 @@ public interface UserMoviesDAO extends CrudRepository<UserMovies, Long> {
     Optional<UserMovies> getByUserAndAndMovie(User user, Movie movie);
     Collection<UserMovies> findAllByUser(User user);
     Collection<UserMovies> findAllByMovieAndRateNotNull(Movie movie);
-
 }
