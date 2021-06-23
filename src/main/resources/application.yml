@@ -19,4 +19,31 @@ spring:
 
 logging:
   file:
-    name: BankCinema.log
+    name: bank_cinema.log
+
+server:
+  port: 8080
+
+management:
+  server:
+    port: 8090
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+
