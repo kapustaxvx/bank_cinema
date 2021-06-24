@@ -7,6 +7,7 @@ import com.moskalenko.bankcinema.api.entity.User;
 import com.moskalenko.bankcinema.kafka.ProducerService;
 import com.moskalenko.bankcinema.service.UserMoviesService;
 import com.moskalenko.bankcinema.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 public class UserController implements UserClient {
 
     private final UserMoviesService userMoviesService;
@@ -36,6 +37,7 @@ public class UserController implements UserClient {
 
     @Override
     @PostMapping
+    @ApiOperation(value = "Add new user")
     public User addUser(@RequestBody UserDTO userData) {
         // producerService.produce(userData);
         return userService.addUser(userData);
@@ -43,19 +45,21 @@ public class UserController implements UserClient {
 
     @Override
     @GetMapping("/{userId}")
+    @ApiOperation(value = "Get user by id")
     public User getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
 
     @Override
     @GetMapping
+    @ApiOperation(value = "Get list of all users")
     public Collection<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-
     @Override
     @PostMapping("/{userId}/add/{movieId}")
+    @ApiOperation(value = "Add movie to user wishlist")
     public @ResponseBody
     String addToUserMoviesList(@PathVariable Long userId, @PathVariable Long movieId) {
         userMoviesService.addToUserMoviesList(userId, movieId);
@@ -64,6 +68,7 @@ public class UserController implements UserClient {
 
     @Override
     @DeleteMapping("/{userId}/delete/{movieId}")
+    @ApiOperation(value = "Delete movie from user wishlist")
     public @ResponseBody
     String deleteFromUserMoviesList(@PathVariable Long userId, @PathVariable Long movieId) {
         userMoviesService.deleteFromUserMoviesList(userId, movieId);
@@ -72,6 +77,7 @@ public class UserController implements UserClient {
 
     @Override
     @PutMapping("/{userId}/movies/{movieId}/rate/{rate}")
+    @ApiOperation(value = "Rate movie by user")
     public @ResponseBody
     String rateTheMovie(@PathVariable Long userId,
                         @PathVariable Long movieId,
@@ -82,6 +88,7 @@ public class UserController implements UserClient {
 
     @Override
     @PutMapping("/{userId}/view/{movieId}")
+    @ApiOperation(value = "Mark movie like watched by user")
     public @ResponseBody
     String updateMovieViewInfo(@PathVariable Long userId, @PathVariable Long movieId) {
         userMoviesService.updateMovieViewInfoToWatched(userId, movieId);
@@ -90,12 +97,14 @@ public class UserController implements UserClient {
 
     @Override
     @GetMapping("/{userId}/all")
+    @ApiOperation(value = "Get list of all user's movies")
     public Collection<Movie> getAllMoviesFromUserMoviesList(@PathVariable Long userId) {
         return userMoviesService.getAllMoviesFromUserMoviesList(userId);
     }
 
     @Override
     @GetMapping("/{userId}/unseen")
+    @ApiOperation(value = "Get list of all unseen user's movies")
     public Collection<Movie> getAllUnseenMoviesFromUserMoviesList(@PathVariable Long userId) {
         return userMoviesService.getAllUnseenMoviesFromUserMoviesList(userId);
     }

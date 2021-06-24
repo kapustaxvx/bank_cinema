@@ -34,7 +34,7 @@ public class MovieService {
         movie.setDirector(director);
         movieDAO.save(movie);
         log.info("[{}] Movie added", movie.getId());
-        producerService.produce(new MovieDTO(movie));
+     //   producerService.produce(new MovieDTO(movie));
         return movie;
     }
 
@@ -66,7 +66,7 @@ public class MovieService {
             throw new RuntimeException("Movie is not found");
         }
         movie.setRating(rating);
-        producerService.produce(new MovieDTO(movie));
+      //  producerService.produce(new MovieDTO(movie));
         log.info("[{}] Movie's rating is update to [{}]", movieId, rating);
     }
 }
