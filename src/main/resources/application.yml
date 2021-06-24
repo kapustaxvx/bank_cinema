@@ -24,10 +24,11 @@ logging:
 server:
   port: 8080
 
+
 management:
   server:
     port: 8090
-
+  # Включить все конечные точки
   endpoints:
     web:
       exposure:
@@ -38,12 +39,32 @@ management:
       enabled: true
     health:
       show-details: always
-
+  # Включить экспорт prometheus
   metrics:
     export:
       prometheus:
         enabled: true
+  # включить гистограмму на основе процентилей для http запросов
     distribution:
       percentiles-histogram:
         "[http.server.requests]": true
+  # сегментов гистограммы http SLA
+    sla:
+     http:
+       server:
+         requests: 100 мс, 150 мс, 250 мс, 500 мс, 1 с
+  # включить метрики JVM
+    enable:
+      jvm: true
 
+info:
+  application:
+    name: bank-cinema
+    description: All movies of the world in one application
+    artifact: bank-cinema
+    version: 0.0.1-SNAPSHOT
+  techstack:
+    java: open jdk 8
+    spring boot: 2.5.1
+    database: H2
+    kafka:
