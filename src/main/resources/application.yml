@@ -52,7 +52,7 @@ management:
     sla:
      http:
        server:
-         requests: 100 мс, 150 мс, 250 мс, 500 мс, 1 с
+         requests: 1ms,5ms
   # включить метрики JVM
     enable:
       jvm: true

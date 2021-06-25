@@ -5,6 +5,8 @@ import com.moskalenko.bankcinema.api.DTO.DirectorDTO;
 import com.moskalenko.bankcinema.api.entity.Director;
 import com.moskalenko.bankcinema.dao.DirectorDAO;
 import com.moskalenko.bankcinema.kafka.ProducerService;
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,10 @@ public class DirectorService {
     }
 
     @Transactional
+    @Timed(value = "add.director.time",
+            description = "Time taken to add director")
+    @Counted(value = "add.director.count",
+            description = "Total number of requests of calls add director method")
     public Director addDirector(DirectorDTO directorData) {
         final Director director = new Director(directorData.getName(), directorData.getSurname());
         directorDAO.save(director);
@@ -32,6 +38,10 @@ public class DirectorService {
         return director;
     }
 
+    @Timed(value = "all.directors.time",
+            description = "Time taken to get all directors")
+    @Counted(value = "get.directors.count",
+            description = "Total number of requests of calls get all directors method")
     public Collection<Director> getAllDirectors() {
         final Collection<Director> directors = (Collection<Director>) directorDAO.findAll();
         if (directors.isEmpty()) {
@@ -42,6 +52,10 @@ public class DirectorService {
         return directors;
     }
 
+    @Timed(value = "get.director.time",
+            description = "Time taken to get director by id")
+    @Counted(value = "get.director.count",
+            description = "Total number of requests of calls get director by id method")
     public Director getDirectorById(Long directorId) {
         final Director director = directorDAO.getDirectorById(directorId).orElse(null);
         if (director == null){
