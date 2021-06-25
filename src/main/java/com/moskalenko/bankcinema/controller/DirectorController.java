@@ -18,6 +18,7 @@ import java.util.Collection;
 @RequestMapping("api/directors")
 public class DirectorController implements DirectorClient {
 
+
     private final DirectorService directorService;
 
     public DirectorController(DirectorService directorService) {
