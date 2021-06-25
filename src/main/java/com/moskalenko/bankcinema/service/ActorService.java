@@ -36,7 +36,7 @@ public class ActorService {
         final Actor actor = new Actor(actorData.getName(), actorData.getSurname());
         actorDAO.save(actor);
         log.info("[{}] Actor added", actor.getId());
-       // producerService.produce(new ActorDTO(actor));
+        producerService.produce(new ActorDTO(actor));
         return actor;
     }
 

@@ -27,7 +27,7 @@ public class UserService {
         final User user = new User(userData.getName(), userData.getSurname(), userData.getNickname());
         userDAO.save(user);
         log.info("[{}] User added", user.getId());
-      //  producerService.produce(new UserDTO(user));
+        producerService.produce(new UserDTO(user));
         return user;
     }
 

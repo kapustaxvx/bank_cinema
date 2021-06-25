@@ -34,7 +34,7 @@ public class DirectorService {
         final Director director = new Director(directorData.getName(), directorData.getSurname());
         directorDAO.save(director);
         log.info("[{}] Director added", director.getId());
-       // producerService.produce(new DirectorDTO(director));
+        producerService.produce(new DirectorDTO(director));
         return director;
     }
 

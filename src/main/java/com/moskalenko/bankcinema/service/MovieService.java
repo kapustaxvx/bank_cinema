@@ -34,7 +34,7 @@ public class MovieService {
         movie.setDirector(director);
         movieDAO.save(movie);
         log.info("[{}] Movie added", movie.getId());
-     //   producerService.produce(new MovieDTO(movie));
+        producerService.produce(new MovieDTO(movie));
         return movie;
     }
 
