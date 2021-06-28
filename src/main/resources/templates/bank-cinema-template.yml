@@ -1,0 +1,96 @@
+kind: Template
+apiVersion: v1
+metadata:
+  labels:
+    app: bank-cinema-app-sample
+  name: bank-cinema-app-sample
+  annotations:
+    description: >-
+      This example shows how to create a simple Java application in openshift
+    tags: java
+parameters:
+  - name: APP_NAME
+    description: application name
+    value: bank-cinema-app-sample
+    required: true
+objects:
+  - kind: ImageStream
+    apiVersion: v1
+    metadata:
+      name: "${APP_NAME}"
+    spec:
+      tags:
+        - from:
+            kind: DockerImage
+            name: 172.30.1.1:5000/myproject/${APP_NAME}:latest
+          name: latest
+  - kind: BuildConfig
+    apiVersion: v1
+    metadata:
+      name: "${APP_NAME}"
+      labels:
+        name: "${APP_NAME}"
+    spec:
+      source:
+        binary: {}
+        type: Binary
+      strategy:
+        type: Docker
+      output:
+        to:
+          kind: DockerImage
+          name: 172.30.1.1:5000/myproject/${APP_NAME}:latest
+      postCommit: {}
+      resources: {}
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: "${APP_NAME}"
+    spec:
+      strategy:
+        type: Rolling
+        rollingParams:
+          updatePeriodSeconds: 1
+          intervalSeconds: 1
+          timeoutSeconds: 120
+        resources: {}
+      replicas: 1
+      selector:
+        app: "${APP_NAME}"
+      template:
+        metadata:
+          labels:
+            app: "${APP_NAME}"
+        spec:
+          containers:
+            - name: "${APP_NAME}"
+              image: 172.30.1.1:5000/myproject/${APP_NAME}:latest
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+                - containerPort: 5005
+                  protocol: TCP
+              env:
+                - name: TZ
+                  value: Europe/Moscow
+              resources:
+                limits:
+                  cpu: '0.5'
+                  memory: 1000Mi
+                requests:
+                  cpu: '0.2'
+                  memory: 500Mi
+              imagePullPolicy: Always
+          restartPolicy: Always
+          dnsPolicy: ClusterFirst
+    triggers:
+      - type: ConfigChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - "${APP_NAME}"
+          from:
+            kind: ImageStreamTag
+            name: 172.30.1.1:5000/myproject/${APP_NAME}:latest
+      - type: ImageChange
+    status: {}
