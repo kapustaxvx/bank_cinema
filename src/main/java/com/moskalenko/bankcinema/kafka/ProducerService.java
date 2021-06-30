@@ -30,7 +30,7 @@ public class ProducerService {
 
     public void produce(UserDTO user) {
         log.info("Producing the user " + user);
-        userDTOKafkaTemplate.send("users", user);
+        userDTOKafkaTemplate.send("users-topic", user);
     }
 
     public void produce(ActorDTO actor) {
